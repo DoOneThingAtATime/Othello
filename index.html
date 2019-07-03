@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="zh-Hans" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <meta name="author" content="guakun">
+    <title>黑白棋</title>
+    <style>
+      html, body {
+        height: 100vh;
+        margin: 0;
+        background: black;
+      }
+      .box {
+        margin: 40px auto;
+        width: 400px;
+        border-bottom: 1px solid #00bcd4;
+        border-right: 1px solid #00bcd4;
+      }
+      .row {
+        display: flex;
+        border-top: 1px solid #00bcd4;
+        height: 50px;
+      }
+      .col {
+        border-left: 1px solid #00bcd4;
+        width: 50px;
+        height: 50px;
+      }
+      .container {
+        display: inline-block;
+        padding: 10px;
+        border: 1px solid yellow;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="box">
+      <div class="row">
+        <div class="col"></div>
+        <div class="col"></div>
+        <div class="col"></div>
+        <div class="col"></div>
+        <div class="col"></div>
+        <div class="col"></div>
+        <div class="col"></div>
+        <div class="col"></div>
+      </div>
+      <div class="row">
+        <div class="col"></div>
+        <div class="col"></div>
+        <div class="col"></div>
+        <div class="col"></div>
+        <div class="col"></div>
+        <div class="col"></div>
+        <div class="col"></div>
+        <div class="col"></div>
+      </div>
+      <div class="row">
+        <div class="col"></div>
+        <div class="col"></div>
+        <div class="col"></div>
+        <div class="col"></div>
+        <div class="col"></div>
+        <div class="col"></div>
+        <div class="col"></div>
+        <div class="col"></div>
+      </div>
+      <div class="row">
+        <div class="col"></div>
+        <div class="col"></div>
+        <div class="col"></div>
+        <div class="col"></div>
+        <div class="col"></div>
+        <div class="col"></div>
+        <div class="col"></div>
+        <div class="col"></div>
+      </div>
+      <div class="row">
+        <div class="col"></div>
+        <div class="col"></div>
+        <div class="col"></div>
+        <div class="col"></div>
+        <div class="col"></div>
+        <div class="col"></div>
+        <div class="col"></div>
+        <div class="col"></div>
+      </div>
+      <div class="row">
+        <div class="col"></div>
+        <div class="col"></div>
+        <div class="col"></div>
+        <div class="col"></div>
+        <div class="col"></div>
+        <div class="col"></div>
+        <div class="col"></div>
+        <div class="col"></div>
+      </div>
+      <div class="row">
+        <div class="col"></div>
+        <div class="col"></div>
+        <div class="col"></div>
+        <div class="col"></div>
+        <div class="col"></div>
+        <div class="col"></div>
+        <div class="col"></div>
+        <div class="col"></div>
+      </div>
+      <div class="row">
+        <div class="col"></div>
+        <div class="col"></div>
+        <div class="col"></div>
+        <div class="col"></div>
+        <div class="col"></div>
+        <div class="col"></div>
+        <div class="col"></div>
+        <div class="col"></div>
+      </div>
+    </div>
+
+    <div id="container" class="container"></div>
+
+    <script type="text/javascript">
+      let board = [
+        [0, 0, 0, 0, 0, 0, 0, 0],
+        [0, 0, 0, 0, 0, 0, 0, 0],
+        [0, 0, 0, 0, 0, 0, 0, 0],
+        [0, 0, 0, 2, 1, 0, 0, 0],
+        [0, 0, 0, 1, 2, 0, 0, 0],
+        [0, 0, 0, 0, 0, 0, 0, 0],
+        [0, 0, 0, 0, 0, 0, 0, 0],
+        [0, 0, 0, 0, 0, 0, 0, 0],
+      ]
+
+      let color = 1
+      let container = document.querySelector('#container')
+
+      function render() {
+        container.innerHTML = ""
+        for(let y = 0; y < 8; y++) {
+          for(let x = 0; x < 8; x++) {
+            let element = document.createElement('div')
+            element.addEventListener('click', (event) => {
+              // console.log('x, y', x, y)
+              let ox = x, oy = y
+              let hasOpposite = false
+              let canMove = false
+
+              if (board[y][x] !== 0) {
+                return
+              }
+
+              while(--x >= 0) {
+                if (board[y][x] === 3 - color) {
+                  hasOpposite = true
+                }
+                if (board[y][x] === color) {
+                  if (hasOpposite) {
+                    canMove = true
+                  }
+                  break;
+                }
+                if (board[y][x] === 0) {
+                  break;
+                }
+              }
+              if (canMove) {
+                while(x++ != ox) {
+                  board[y][x] = color
+                }
+
+                color = 3 - color
+              }
+              render()
+            })
+            element.style =
+              "vertical-align: bottom; border: 1px solid white; width: 50px; height: 50px; background-color: darkgreen; display: inline-block;"
+
+            if (board[y][x] === 1) {
+              let disc = document.createElement('div')
+              disc.style =
+                "border-radius: 20px; width: 40px; height: 40px;background-color: black; margin: 5px auto;"
+              element.appendChild(disc)
+            } else if (board[y][x] === 2) {
+              let disc = document.createElement('div')
+              disc.style =
+                "border-radius: 20px; width: 40px; height: 40px;background-color: white; margin: 5px auto;"
+              element.appendChild(disc)
+            }
+
+            container.appendChild(element)
+          }
+          container.appendChild(document.createElement('br'))
+        }
+      }
+
+      render()
+
+    </script>
+  </body>
+</html>

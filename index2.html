@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="zh-Hans" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <meta name="author" content="guakun">
+    <title>黑白棋</title>
+    <style>
+      html, body {
+        height: 100vh;
+        margin: 0;
+        background: black;
+      }
+      .cell {
+        vertical-align: bottom; border: 1px solid white; width: 50px; height: 50px; background-color: darkgreen; display: inline-block;
+      }
+      .cell.white:before, .cell.black:before {
+        display: block;
+        content: '';
+        border-radius: 20px; width: 40px; height: 40px; margin: 5px auto;
+      }
+      .cell.white:before {
+        background-color: white;
+      }
+      .cell.black:before {
+        background-color: black;
+      }
+      .container {
+        display: inline-block;
+        padding: 10px;
+        border: 1px solid yellow;
+      }
+    </style>
+  </head>
+  <body>
+
+    <div id="container" class="container"></div>
+
+    <script type="text/javascript">
+      let board = [
+        0, 0, 0, 0, 0, 0, 0, 0,
+        0, 0, 0, 0, 0, 0, 0, 0,
+        0, 0, 0, 0, 0, 0, 0, 0,
+        0, 0, 0, 2, 1, 0, 0, 0,
+        0, 0, 0, 1, 2, 0, 0, 0,
+        0, 0, 0, 0, 0, 0, 0, 0,
+        0, 0, 0, 0, 0, 0, 0, 0,
+        0, 0, 0, 0, 0, 0, 0, 0,
+      ]
+
+      let color = 1
+      let container = document.querySelector('#container')
+
+      function render() {
+        container.innerHTML = ''
+        for (let i = 0; i < 64; i++) {
+          if (i > 0 & i % 8 === 0) {
+            container.appendChild(document.createElement('br'))
+          }
+          let x = i % 8, y = (i - i % 8) / 8
+          let element = document.createElement('div')
+          element.className = `cell ${board[i] === 1 ? 'white' : ''} ${board[i] === 2 ? 'black' : ''}`
+          element.addEventListener('click', (event) => {
+            console.log('x, y', x, y)
+          })
+          container.appendChild(element)
+        }
+      }
+
+      render()
+
+    </script>
+  </body>
+</html>
